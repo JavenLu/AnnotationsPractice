@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
         String aa = string;
     }
 
+    /**
+     * 通过反射解析注解拿到其中的值
+     */
     public void showRuntimeAnnotation() {
 
         try {
