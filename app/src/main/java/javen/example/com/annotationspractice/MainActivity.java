@@ -1,25 +1,24 @@
 package javen.example.com.annotationspractice;
 
-import android.Manifest;
-import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.support.annotation.Size;
-import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
+
+import javen.example.com.processor.CustomAnnotation;
+import javen.example.com.processor.generated.GeneratedClass;
 
 import static javen.example.com.annotationspractice.StringDefInterface.STATUS_VALID;
 
+@CustomAnnotation
 public class MainActivity extends AppCompatActivity {
 
     @NonNull
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         nullable = null;   //这个变量由于添加了可以为空的注解 所以没有任何警告
 
         //getCurColor(R.id.textView);  //这个地方会被编译器用红色下划线标注，提示 Expected resource of type color
-        getCurColor(R.color.colorAccent);  //这个方法正确
+        // getCurColor(R.color.colorAccent);  //这个方法正确
 
         setStatus(STATUS_VALID);  //如果是其他字符串则编译器会报错
 
@@ -54,11 +53,17 @@ public class MainActivity extends AppCompatActivity {
 
         showRuntimeAnnotation();
 
+        showClassGeneratedWithAnnotation();
     }
 
-    void getCurColor(@ColorRes int color) {
-        Toast.makeText(this, "Color: " + getString(color), Toast.LENGTH_LONG).show();
+    private void showClassGeneratedWithAnnotation() {
+        String message = new GeneratedClass().getMessage();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+
+//    void getCurColor(@ColorRes int color) {
+//        Toast.makeText(this, "Color: " + getString(color), Toast.LENGTH_LONG).show();
+//    }
 
 //    @RequiresPermission(Manifest.permission.SET_WALLPAPER)
 //    public abstract void setWallpaper(Bitmap bitmap) throws IOException;  //说明setWallpaper 有设置壁纸的权限
